@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="mb-4">Welcome, {{ user.username }}!</h1>
+    <p>Here you can view your requests.</p>
+
+    <a href="{% url 'create_request' %}" class="btn btn-primary mb-4">Create New Request</a>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Category</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for request in user_requests %}
+            <tr>
+                <td>{{ request.title }}</td>
+                <td>{{ request.description }}</td>
+                <td>{{ request.category.name }}</td>
+                <td>{{ request.status }}</td>
+                <td>
+                    {% if request.status != 'Принято в работу' and request.status != 'Выполнено' %}
+                    <a href="{% url 'delete_request' request.id %}" class="btn btn-danger btn-sm">Delete</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5">You don't have any requests yet.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{% url 'logout' %}" class="btn btn-secondary">Logout</a>
+</div>
+{% endblock %}

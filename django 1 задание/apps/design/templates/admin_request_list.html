@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Admin Request List</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Status</th>
+                <th>User</th>
+                <th>Created At</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for request in requests %}
+            <tr>
+                <td>{{ request.id }}</td>
+                <td>{{ request.status }}</td>
+                <td>{{ request.user.username }}</td>
+                <td>{{ request.created_at }}</td>
+                <td>
+                    <a href="{% url 'request_detail' request_id=request.id %}" class="btn btn-primary btn-sm">Change Status</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5">No requests found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
